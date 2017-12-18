@@ -1,7 +1,8 @@
 var gifRetriever = {
-	topics: [[],[]],
-	topicCategories: [],
-	buttonCreator: function() {
+	topics: [["actions", "adjectives", "animals", "anime", "art & design", "cartoons & comics", "celebrities", "decades", "emotions", "fashion & beauty", "food & drink", "gaming", "holidays", "interests", "memes", "movies", "music", "nature", "news & politics", "reactions", "science", "sports", "stickers", "transportation", "tv"],["cool math", "fibonacci", "fractal", "golden ratio", "hypercube", "math art", "pi day", "sierpinski", "tesselation"],["baby alligator", "capybara", "cute cub", "cute kitten", "fennec fox", "floof", "kitten cute", "puppy hug", "sand cat", "snake", "snow leopard tail in mouth"],["dragon", "drow", "eldritch", "fairy", "gelatinous cube", "lich", "sphinx", "unicorn", "vampire", "zombie"],["minecraft", "chrono trigger", "portal", "civ", "magic the gathering", "pokemon", "incredible machine", "final fantasy tactics advanced", "myst", "super smash bros"]],
+	topicCategories: ["giphy default topics", "math", "animals", "mythological creatures", "games"],
+	curCategory: "",
+	buttonCreator: function(topic, area) {
 		//create a button and puts it in correct area (either 'my topics' or under the category header)
 		//checks if it already exists as a topic. If so, does not create it, just opens up the category ...maybe highlights the topic?
 
@@ -9,6 +10,7 @@ var gifRetriever = {
 		//opens category area for which it is created
 
 		//Topics should have uniform capitalization - all lower or proper.
+		$("#"+area).append('<button type = "button" class="btn btn-default topic">'+gifRetriever.toTitleCase(topic)+'</button>');
 	},
 	createGif: function(topic) {
 		// Creates a gif based on which button was pressed
@@ -24,13 +26,11 @@ var gifRetriever = {
 
 	      //3. When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
 
-
 	      	// console.log(response.data);
 
 	      for (var i = 0; i < 10; i++) {
 	      	$("#images").prepend('<div class="thumbnail"><img alt="Bootstrap Thumbnail Third" src="'+response.data[i].images.fixed_height_still.url+'" data-still = "'+response.data[i].images.fixed_height_still.url+'" data-animate = "'+response.data[i].images.fixed_height.url+'" data-state = "still" class="gif caption"><p>Rated '+response.data[i].rating+'</p></div></div>');
 	      }
-
 	      //<div class="col-md-2">
 	      // response.data[i].rating
 	      //     5. Under every gif, display its rating (PG, G, so on).
@@ -39,10 +39,14 @@ var gifRetriever = {
 	      // * Only once you get images displaying with button presses should you move on to the next step.
 	      //Fixed still: fixed_height_still
 	      //fixed_height
-
 	    });
-
-
+	},
+	getCategory: function() {
+		//
+		$("#categoryTopics").empty();
+		for (var i = 0; i < gifRetriever.topics[gifRetriever.topicCategories.indexOf(gifRetriever.curCategory)].length; i++) {
+			$("#categoryTopics").append(gifRetriever.buttonCreator(gifRetriever.topics[gifRetriever.topicCategories.indexOf(gifRetriever.curCategory)][i], "categoryTopics"));
+		}
 	},
 	animate: function(image) {
 		//Animates or stills gif
@@ -56,14 +60,37 @@ var gifRetriever = {
           $(image).attr("data-state","still");
         }
 	},
+	toTitleCase: function(str) {
+	    return str.replace(/(?:^|\s)\w/g, function(match) {
+	        return match.toUpperCase();
+	    });
+	},
 	startUp: function() {
 		//starts program up
-		//chooses random default category and brings it up
+		//Creates dropdown list of categories
+		$("#categories").empty();
+		for (var i = 0; i < gifRetriever.topicCategories.length; i++) {
+			$("#categories").append('<li><a href="#">'+gifRetriever.toTitleCase(gifRetriever.topicCategories[i])+'</a></li>');
+		}
+
+		//chooses random default category
+		gifRetriever.curCategory = gifRetriever.topicCategories[Math.floor(Math.random()*gifRetriever.topicCategories.length)];
+		gifRetriever.getCategory();
+		//Clears area for buttons
+
+		//Creates buttons for category chosen
+
+		//brings up category
+
+		
 	}
 }
 
+gifRetriever.startUp();
 
-
+$("body").on("click", "#addTopic", function() {
+	gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
+});
 $("body").on("click", ".topic", function() {
     	gifRetriever.createGif($(this).text());
 
@@ -72,4 +99,14 @@ $("body").on("click", "img", function() {
     	gifRetriever.animate(this);
     	console.log("hi");
 
+});
+
+$(document).keypress(function(e) {
+    if(e.which == 13) {
+        gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
+    }
+});
+
+$(function() {
+    $("form").submit(function() { return false; });
 });
