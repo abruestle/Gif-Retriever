@@ -10,7 +10,11 @@ var gifRetriever = {
 		//opens category area for which it is created
 
 		//Topics should have uniform capitalization - all lower or proper.
-		$("#"+area).append('<button type = "button" class="btn btn-default topic">'+gifRetriever.toTitleCase(topic).trim()+'</button>');
+		//does not allow spaces
+		if((topic).trim() != "") {
+			$("#"+area).append('<button type = "button" class="btn btn-default topic">'+gifRetriever.toTitleCase(topic).trim()+'</button>');
+		}
+		
 	},
 	createGif: function(topic) {
 		// Creates a gif based on which button was pressed
@@ -103,9 +107,11 @@ $("body").on("click", "#categories ul li", function(){
 });
 
 $("body").on("click", "#addTopic", function() {
-	gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
-	$("#panel-element-265940").collapse("show");
-	$("#panel-element-850776").collapse("hide");
+	if(($("#newTopic").val()).trim() != "") {
+        gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
+		$("#panel-element-265940").collapse("show");
+		$("#panel-element-850776").collapse("hide");
+	}
 	$("#newTopic").val("");
 });
 
@@ -123,9 +129,11 @@ $("body").on("click", "img", function() {
 
 $(document).keypress(function(e) {
     if(e.which == 13) {
-        gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
-		$("#panel-element-265940").collapse("show");
-		$("#panel-element-850776").collapse("hide");
+	    if(($("#newTopic").val()).trim() != "") {
+	        gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
+			$("#panel-element-265940").collapse("show");
+			$("#panel-element-850776").collapse("hide");
+		}
 		$("#newTopic").val("");
     }
 });
