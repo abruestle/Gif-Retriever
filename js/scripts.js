@@ -10,7 +10,7 @@ var gifRetriever = {
 		//opens category area for which it is created
 
 		//Topics should have uniform capitalization - all lower or proper.
-		$("#"+area).append('<button type = "button" class="btn btn-default topic">'+gifRetriever.toTitleCase(topic)+'</button>');
+		$("#"+area).append('<button type = "button" class="btn btn-default topic">'+gifRetriever.toTitleCase(topic).trim()+'</button>');
 	},
 	createGif: function(topic) {
 		// Creates a gif based on which button was pressed
@@ -44,9 +44,13 @@ var gifRetriever = {
 	getCategory: function() {
 		//
 		$("#categoryTopics").empty();
-		for (var i = 0; i < gifRetriever.topics[gifRetriever.topicCategories.indexOf(gifRetriever.curCategory)].length; i++) {
-			$("#categoryTopics").append(gifRetriever.buttonCreator(gifRetriever.topics[gifRetriever.topicCategories.indexOf(gifRetriever.curCategory)][i], "categoryTopics"));
+		for (var i = 0; i < gifRetriever.topics[gifRetriever.topicCategories.indexOf((gifRetriever.curCategory).toLowerCase())].length; i++) {
+			$("#categoryTopics").append(gifRetriever.buttonCreator(gifRetriever.topics[gifRetriever.topicCategories.indexOf((gifRetriever.curCategory).toLowerCase())][i], "categoryTopics"));
 		}
+		$("#categoryName").text(gifRetriever.toTitleCase(gifRetriever.curCategory));
+
+		$("#panel-element-850776").collapse("show");
+		$("#panel-element-265940").collapse("hide");
 	},
 	animate: function(image) {
 		//Animates or stills gif
@@ -68,9 +72,9 @@ var gifRetriever = {
 	startUp: function() {
 		//starts program up
 		//Creates dropdown list of categories
-		$("#categories").empty();
+		$("#categories ul").empty();
 		for (var i = 0; i < gifRetriever.topicCategories.length; i++) {
-			$("#categories").append('<li><a href="#">'+gifRetriever.toTitleCase(gifRetriever.topicCategories[i])+'</a></li>');
+			$("#categories ul").append('<li><a href="#">'+gifRetriever.toTitleCase(gifRetriever.topicCategories[i])+'</a></li>');
 		}
 
 		//chooses random default category
@@ -88,9 +92,24 @@ var gifRetriever = {
 
 gifRetriever.startUp();
 
+
+$("body").on("click", "#categories ul li", function(){
+    //if I want to add the category chosen as the dropdown text
+	// $("#categories .btn:first-child").text($(this).text());
+ //    $("#categories .btn:first-child").val($(this).text());
+	console.log("test");
+	gifRetriever.curCategory = $(this).text();
+	gifRetriever.getCategory();
+});
+
 $("body").on("click", "#addTopic", function() {
 	gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
+	$("#panel-element-265940").collapse("show");
+	$("#panel-element-850776").collapse("hide");
 });
+
+
+
 $("body").on("click", ".topic", function() {
     	gifRetriever.createGif($(this).text());
 
@@ -104,6 +123,8 @@ $("body").on("click", "img", function() {
 $(document).keypress(function(e) {
     if(e.which == 13) {
         gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
+		$("#panel-element-265940").collapse("show");
+		$("#panel-element-850776").collapse("hide");
     }
 });
 
