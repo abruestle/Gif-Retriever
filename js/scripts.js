@@ -106,6 +106,7 @@ $("body").on("click", "#addTopic", function() {
 	gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
 	$("#panel-element-265940").collapse("show");
 	$("#panel-element-850776").collapse("hide");
+	$("#newTopic").val("");
 });
 
 
@@ -125,6 +126,7 @@ $(document).keypress(function(e) {
         gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
 		$("#panel-element-265940").collapse("show");
 		$("#panel-element-850776").collapse("hide");
+		$("#newTopic").val("");
     }
 });
 
