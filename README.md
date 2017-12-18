@@ -1,1 +1,1 @@
-# Gif-Retriever
+# GifRetriever
