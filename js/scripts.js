@@ -117,6 +117,12 @@ $("body").on("click", "#addTopic", function() {
 
 
 
+$("body").on("click", "#clearTopics", function() {
+	if (confirm("Are you sure you want to clear all your topics?") == true) {
+		$("#myTopics").empty();
+	}
+});
+
 $("body").on("click", ".topic", function() {
     	gifRetriever.createGif($(this).text());
 
