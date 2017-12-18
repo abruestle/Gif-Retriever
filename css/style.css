@@ -6,7 +6,6 @@
 .panel-group {
 	margin-top:30px;
 }
-
 #myTopics .btn, #categoryTopics .btn {
 	margin:5px;
 }
@@ -14,5 +13,9 @@
 	.panel-body {
 		padding-bottom: 0px;
 	}
+	#categories {
+		margin-bottom:10px;
+	}
 	
 }
+

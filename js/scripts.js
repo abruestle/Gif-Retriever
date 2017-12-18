@@ -122,6 +122,11 @@ $("body").on("click", "#clearTopics", function() {
 		$("#myTopics").empty();
 	}
 });
+$("body").on("click", "#clearGifs", function() {
+	if (confirm("Are you sure you want to clear all your gifs?") == true) {
+		$("#images").empty();
+	}
+});
 
 $("body").on("click", ".topic", function() {
     	gifRetriever.createGif($(this).text());
