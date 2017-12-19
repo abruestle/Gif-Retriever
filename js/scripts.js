@@ -33,7 +33,7 @@ var gifRetriever = {
 	      	// console.log(response.data);
 
 	      for (var i = 0; i < 10; i++) {
-	      	$("#images").prepend('<div class="thumbnail"><img alt="Bootstrap Thumbnail Third" src="'+response.data[i].images.fixed_height_still.url+'" data-still = "'+response.data[i].images.fixed_height_still.url+'" data-animate = "'+response.data[i].images.fixed_height.url+'" data-state = "still" class="gif caption"><p>Rated '+response.data[i].rating+'</p></div></div>');
+	      	$("#images").prepend('<div class="thumbnail grid-item"><img src="'+response.data[i].images.fixed_height_still.url+'" data-still = "'+response.data[i].images.fixed_height_still.url+'" data-animate = "'+response.data[i].images.fixed_height.url+'" data-state = "still" class="gif caption"><p>Rated '+response.data[i].rating+'</p></div></div>');
 	      }
 	      //<div class="col-md-2">
 	      // response.data[i].rating
@@ -44,6 +44,12 @@ var gifRetriever = {
 	      //Fixed still: fixed_height_still
 	      //fixed_height
 	    });
+
+	 //    $('.grid').masonry({
+		//   // options
+		//   itemSelector: '.grid-item',
+		//   columnWidth: 200
+		// });
 	},
 	getCategory: function() {
 		//
@@ -107,6 +113,7 @@ $("body").on("click", "#categories ul li", function(){
 });
 
 $("body").on("click", "#addTopic", function() {
+	event.preventDefault();
 	if(($("#newTopic").val()).trim() != "") {
         gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
 		$("#panel-element-265940").collapse("show");
@@ -138,8 +145,15 @@ $("body").on("click", "img", function() {
 
 });
 
+	 //    $('.grid').masonry({
+		//   // options
+		//   itemSelector: '.grid-item',
+		//   columnWidth: 200
+		// });
+
 $(document).keypress(function(e) {
     if(e.which == 13) {
+    	event.preventDefault();
 	    if(($("#newTopic").val()).trim() != "") {
 	        gifRetriever.buttonCreator($("#newTopic").val(), "myTopics");
 			$("#panel-element-265940").collapse("show");
@@ -149,6 +163,6 @@ $(document).keypress(function(e) {
     }
 });
 
-$(function() {
-    $("form").submit(function() { return false; });
-});
+// $(function() {
+//     $("form").submit(function() { return false; });
+// });
